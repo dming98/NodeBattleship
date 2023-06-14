@@ -22,7 +22,7 @@ jobs:
         run: npm install
 
       - name: Build
-        run: npm run build
+        run: node server.js
 
 #   test:
 #     runs-on: ubuntu-latest
