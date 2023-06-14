@@ -1,0 +1,61 @@
+name: Build, Test, and Deploy
+
+on:
+  push:
+    branches:
+      - main  # Modify this branch name if needed
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14  # Modify the version if needed
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build  # Modify the build command if needed
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14  # Modify the version if needed
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test  # Modify the test command if needed
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14  # Modify the version if needed
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Deploy
+        run: npm run deploy  # Modify the deploy command if needed
