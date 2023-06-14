@@ -21,9 +21,15 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build
-        run: node server.js
 
+      - name: Deploy to server
+        run: |
+          # Stop the currently running app (if any)
+          pm2 stop app || true
+
+          # Start the Node.js app
+          node server.js
+          
 #   test:
 #     runs-on: ubuntu-latest
 
