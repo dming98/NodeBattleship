@@ -13,7 +13,7 @@ var port = 8900;
 var users = {};
 var gameIdCounter = 1;
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/'));
 
 http.listen(port, function(){
   console.log('listening on *:' + port);
