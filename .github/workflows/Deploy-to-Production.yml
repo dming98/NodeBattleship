@@ -1,4 +1,5 @@
 name: Deploy to Production
+
 on:
   push:
     branches: [ "master" ]
@@ -21,7 +22,8 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm install
+        cache: 'npm'  
+    - run: npm ci
+    - run: npm cache verify
     - run: npm run build --if-present
    # - run: npm test
