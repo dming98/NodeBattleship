@@ -1,5 +1,4 @@
-name: Development Staging CI
-
+name: Deploy to Production
 on:
   push:
     branches: [ "master" ]
