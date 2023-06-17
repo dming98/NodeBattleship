@@ -1,7 +1,7 @@
 describe('template spec', () => {
     before(() => {
         // Start the server before the tests
-        cy.exec('node server.js', {failOnNonZeroExit: true, timeout: 20000}).then((result) =>
+        cy.exec('node server.js', {failOnNonZeroExit: false, timeout: 20000}).then((result) =>
             console.log(result)
         );
     });
@@ -52,13 +52,11 @@ describe('template spec', () => {
                 let status = turnStatus.text();
                 p1turn = status === "It's your turn!";
 
-                console.log(status)
                 if (p1turn) {
                     cy.get('#p2div').click(p1x, p1y);
                 }
             });
             cy.get('#turn-status').then((afterTurnStatus) => {
-                console.log("P1 after: %s", afterTurnStatus.text())
                 inProgress = afterTurnStatus.text() === "Waiting for opponent." || afterTurnStatus.text() === "It's your turn!";
 
                 if (afterTurnStatus.text() === "It's your turn!"){
@@ -86,12 +84,10 @@ describe('template spec', () => {
                 inProgress = status === "Waiting for opponent." || status === "It's your turn!";
                 p2turn = status === "It's your turn!";
 
-                console.log(status)
                 if (p2turn) {
                     getIframeDocument().find('#p2div').click(p2x, p2y);
                 }
                 getIframeDocument().find('#turn-status').then((afterTurnStatus) => {
-                    console.log("P2 after: %s", afterTurnStatus.text())
                     inProgress = afterTurnStatus.text() === "Waiting for opponent." || afterTurnStatus.text() === "It's your turn!";
 
                     if (afterTurnStatus.text() === "It's your turn!"){

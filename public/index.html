@@ -48,11 +48,11 @@
 
                                 <!-- Player grids -->
                                 <div class="row">
-                                    <div class="col-md-6 player-grid text-center">
+                                    <div id="p1div" class="col-md-6 player-grid text-center">
                                         <h3>You</h3>
                                         <canvas id="canvas-grid1" width="361" height="361">Browser does not support canvas.</canvas>
                                     </div>
-                                    <div class="col-md-6 player-grid text-center">
+                                    <div id="p2div" class="col-md-6 player-grid text-center">
                                         <h3>Opponent</h3>
                                         <canvas id="canvas-grid2" width="361" height="361">Browser does not support canvas.</canvas>
                                     </div>
@@ -76,7 +76,7 @@
                                         <div class="input-group">
                                         <input id="message" class="form-control" autocomplete="off" />
                                         <div class="input-group-btn">
-                                            <button class="btn btn-primary">Send Message</button>
+                                            <button id="send-message" class="btn btn-primary">Send Message</button>
                                         </div>
                                         </div>
                                     </form>
