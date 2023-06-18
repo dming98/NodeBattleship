@@ -2,9 +2,9 @@ name: Cleanup
 
 on:
     push:
-      branches: [ "master" ]
+      branches: [ "Development" ]
     pull_request:
-      branches: [ "master" ]
+      branches: [ "Development" ]
 
 jobs:
   code_quality:
