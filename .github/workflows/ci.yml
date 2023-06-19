@@ -8,5 +8,5 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Cypress run
-        timeout-minutes: 20000
         uses: cypress-io/github-action@v5
+        timeout-minutes: 20000
