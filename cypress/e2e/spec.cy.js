@@ -1,7 +1,7 @@
 describe('template spec', () => {
     before(() => {
         // Start the server before the tests
-        cy.exec('node server.js', {failOnNonZeroExit: false, timeout: 20000}).then((result) =>
+        cy.exec('node server.js', {failOnNonZeroExit: false, timeout: 40000}).then((result) =>
             console.log(result)
         );
     });
