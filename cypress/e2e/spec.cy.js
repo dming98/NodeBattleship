@@ -13,8 +13,8 @@ describe('template spec', () => {
     }
 
     it('passes', () => {
-        cy.exec('node server.js', {failOnNonZeroExit: false, timeout: 70000});
-        cy.wait(1000);
+        //cy.exec('node server.js', {failOnNonZeroExit: false, timeout: 70000});
+        //cy.wait(1000);
 
         cy.viewport(1000, 1300) // Set viewport to 550px x 750px
         // Load the waiting room
