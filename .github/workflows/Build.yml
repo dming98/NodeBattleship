@@ -2,10 +2,10 @@ name: Build
 on:
   push:
     branches:
-      - master
+      - Staging
   pull_request:
     branches:
-      - master
+      - Staging
 jobs:
   build:
     runs-on: ubuntu-latest

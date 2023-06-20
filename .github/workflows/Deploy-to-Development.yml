@@ -1,10 +1,10 @@
-name: Deploy to Production
+name: Deploy to Development
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "Staging" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "Staging" ]
 
 jobs:
   build:
