@@ -8,7 +8,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Start server
-        run:  cd ../ && node server.js 
+        run:  node server.js 
       - name: Wait for server to start
         run: sleep 10 
       - name: Cypress run
