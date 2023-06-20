@@ -7,8 +7,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm install
       - name: Start server
-        run:  node server.js 
+        run:  node server.js
       - name: Wait for server to start
         run: sleep 10 
       - name: Cypress run
