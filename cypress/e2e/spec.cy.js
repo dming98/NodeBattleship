@@ -1,10 +1,10 @@
 describe('template spec', () => {
-    before(() => {
+  //  before(() => {
         // Start the server before the tests
-        cy.exec('node server.js', {failOnNonZeroExit: false, timeout: 70000}).then((result) =>
-            console.log(result)
-        );
-    });
+      //  cy.exec('node server.js', {failOnNonZeroExit: false, timeout: 70000}).then((result) =>
+       //     console.log(result)
+      //  );
+   // });
 
     const getIframeDocument = () => {
         return cy
@@ -13,6 +13,9 @@ describe('template spec', () => {
     }
 
     it('passes', () => {
+        cy.exec('node server.js', {failOnNonZeroExit: false, timeout: 70000});
+        cy.wait(1000);
+
         cy.viewport(1000, 1300) // Set viewport to 550px x 750px
         // Load the waiting room
         cy.visit('http://localhost:8900/');
@@ -34,6 +37,7 @@ describe('template spec', () => {
         // TODO: should to verify
 
         // Send messages
+   
         cy.get('#message').type("GL;HF!");
         cy.get('#send-message').should('have.text', 'Send Message').click();
         cy.frameLoaded('[id="player2"]')
@@ -41,7 +45,7 @@ describe('template spec', () => {
         getIframeDocument().find('#send-message').should('have.text', 'Send Message').click();
         // TODO: should to verify
 
-
+        
         // Shoot until game ends
 
         function shootWhileInProgressP1(p1x, p1y, p2x, p2y) {
