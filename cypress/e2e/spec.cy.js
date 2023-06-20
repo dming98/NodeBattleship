@@ -1,3 +1,16 @@
+module.exports = (on, config) => {
+  on('before:browser:launch', (browser = {}, launchOptions) => {
+    if (browser.name === 'chrome' || browser.name === 'chromium' || browser.name === 'chrome:headless' || browser.name === 'chromium:headless') {
+      launchOptions.args.push('--incognito'); // incognito mode disables cache
+    }
+
+    return launchOptions;
+  });
+};
+
+
+
+
 describe('template spec', () => {
     before(() => {
         // Start the server before the tests
