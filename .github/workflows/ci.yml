@@ -24,8 +24,8 @@ jobs:
           SLACK_CHANNEL: nodebattleship-pipeline-results
           SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
           #SLACK_ICON: 
-          SLACK_MESSAGE: 'ci.yml Results'
-          SLACK_TITLE: Play through regression Test
-          SLACK_USERNAME: none
+          SLACK_MESSAGE: ${{ job.status }}
+          SLACK_TITLE: Play through Test Results
+          SLACK_USERNAME: NotifyBot
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
