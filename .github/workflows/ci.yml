@@ -18,3 +18,14 @@ jobs:
         timeout-minutes: 20000
         with:
           browser: chrome
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: nodebattleship-pipeline-results
+          SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+          #SLACK_ICON: 
+          SLACK_MESSAGE: 'ci.yml Results'
+          SLACK_TITLE: Play through regression Test
+          SLACK_USERNAME: none
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
