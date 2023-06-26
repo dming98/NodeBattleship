@@ -15,4 +15,13 @@
     "cypress-iframe": "^1.0.1",
     "eslint": "^8.43.0"
   }
+  "scripts": {
+  "test": "jest",
+  "coverage": "jest --coverage"
+},
+"jest": {
+  "collectCoverage": true,
+  "coverageDirectory": "coverage",
+  "coverageReporters": ["lcov"]
+}
 }
