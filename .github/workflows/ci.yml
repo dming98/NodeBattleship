@@ -18,6 +18,13 @@ jobs:
         timeout-minutes: 20000
         with:
           browser: chrome
+      - name: Generate report
+        run: npm run coverage
+      - name: Archive coverage report
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-report
+          path: coverage/lcov-report/
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
         env:
