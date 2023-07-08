@@ -22,7 +22,7 @@
 "jest": {
   "collectCoverage": true,
   "coverageDirectory": "coverage",
-  "coverageReporters": ["lcov"]
+  "coverageReporters": ["lcov"],
   "testMatch": ["app/tests/**/*.test.js"]
 }
 }
