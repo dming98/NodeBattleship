@@ -22,6 +22,8 @@ jobs:
           browser: chrome
       - name: Generate report
         run: npm run coverage
+      - name: List directories for debug
+        run: ls -R
       - name: Archive coverage report
         uses: actions/upload-artifact@v2
         with:
