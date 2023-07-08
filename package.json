@@ -23,5 +23,6 @@
   "collectCoverage": true,
   "coverageDirectory": "coverage",
   "coverageReporters": ["lcov"]
+  "testMatch": ["app/tests/**/*.test.js"]
 }
 }
