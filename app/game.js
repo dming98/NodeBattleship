@@ -12,7 +12,7 @@ function BattleshipGame(id, idPlayer1, idPlayer2) {
   this.id = id;
   this.currentPlayer = Math.floor(Math.random() * 2);
   this.winningPlayer = null;
-  this.gameStatus = GameStatus.inProgress;
+  this.gameStatus = GameStatus.preGame;
 
   this.players = [new Player(idPlayer1), new Player(idPlayer2)];
 }
@@ -117,7 +117,7 @@ BattleshipGame.prototype.getGameState = function(player, gridOwner) {
 BattleshipGame.prototype.getGrid = function(player, hideShips) {
   return {
     shots: this.players[player].shots,
-    ships: hideShips ? this.players[player].getSunkShips() : this.players[player].ships
+    ships: hideShips ? (this.gameStatus < inProgress ? [] : this.players[player].getSunkShips()) : this.players[player].ships
   };
 };
 

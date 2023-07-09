@@ -33,6 +33,24 @@ $(function() {
   })
 
   /**
+   * Change game status to one placed
+   */
+  socket.on('oneplaced', function(gameState) {
+    Game.setOnePlaced();
+    Game.updateGrid(gameState.gridIndex, gameState.grid);
+  });
+
+  /**
+   * Change game status to in progress
+   */
+  socket.on('startgame', function(gameState) {
+    Game.setInProgress();
+    Game.setTurn(gameState.turn);
+    Game.updateGrid(gameState.gridIndex, gameState.grid);
+
+  });
+
+  /**
    * Update player's game state
    */
   socket.on('update', function(gameState) {
@@ -97,4 +115,12 @@ function sendLeaveRequest(e) {
  */
 function sendShot(square) {
   socket.emit('shot', square);
+}
+
+/**
+ * Send ship coordinates to server
+ * @param {type} square
+ */
+function sendShips(ships) {
+  socket.emit('ships', ships);
 }

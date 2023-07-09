@@ -46,8 +46,20 @@
                             <div class="panel-heading">Battleship Game #<span id="game-number"></span></div>
                             <div class="panel-body">
 
+                                <div class="ships-container">
+                                    <h3>Ships</h3>
+                                    <div class="buttons-container">
+                                        <button type="button" id="carrier" class="btn btn-primary">Aircraft Carrier</button>
+                                        <button type="button" id="battleship" class="btn btn-primary">Battleship</button>
+                                        <button type="button" id="destroyer" class="btn btn-primary">Destroyer</button>
+                                        <button type="button" id="submarine" class="btn btn-primary">Submarine</button>
+                                        <button type="button" id="patrolboat" class="btn btn-primary">Patrol Boat</button>
+                                    </div>
+                                </div>
+
                                 <!-- Player grids -->
                                 <div class="row">
+
                                     <div id="p1div" class="col-md-6 player-grid text-center">
                                         <h3>You</h3>
                                         <canvas id="canvas-grid1" width="361" height="361">Browser does not support canvas.</canvas>
