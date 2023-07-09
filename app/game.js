@@ -86,6 +86,10 @@ BattleshipGame.prototype.shoot = function(position) {
     if(this.players[opponent].getShipsLeft() <= 0) {
       this.gameStatus = GameStatus.gameOver;
       this.winningPlayer = opponent === 0 ? 1 : 0;
+      }
+
+    if (this.gameStatus === GameStatus.inProgress && this.currentPlayer === 1) {
+        this.cpuTurn();
     }
     
     return true;
@@ -120,5 +124,14 @@ BattleshipGame.prototype.getGrid = function(player, hideShips) {
     ships: hideShips ? this.players[player].getSunkShips() : this.players[player].ships
   };
 };
+
+BattleshipGame.prototype.cpuTurn = function () {
+    var position = generateRandomShot(); // Implement the AI's random shot function
+    this.shoot(position);
+    if (this.currentPlayer === 1) { // If the AI has another turn (it hit a ship)
+        this.cpuTurn(); // Take another turn
+    }
+};
+
 
 module.exports = BattleshipGame;

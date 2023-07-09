@@ -23,14 +23,16 @@ $(function() {
   /**
    * User has joined a game
    */
-  socket.on('join', function(gameId) {
-    Game.initGame();
-    $('#messages').empty();
-    $('#disconnected').hide();
-    $('#waiting-room').hide();
-    $('#game').show();
-    $('#game-number').html(gameId);
-  })
+  socket.on('join',
+      function (gameId) {
+          console.log('Joined game ' + gameId);
+          Game.initGame();
+          $('#messages').empty();
+          $('#disconnected').hide();
+          $('#waiting-room').hide();
+          $('#game').show();
+          $('#game-number').html(gameId);
+      });
 
   /**
    * Update player's game state
@@ -79,6 +81,12 @@ $(function() {
     $('#message').val('');
     return false;
   });
+
+    $('#singlePlayerBtn').click(function () {
+        console.log('Single player button clicked');
+        socket.emit('startSinglePlayerGame');
+  });
+
 
 });
 

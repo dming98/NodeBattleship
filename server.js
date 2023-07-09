@@ -4,13 +4,28 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var Entities = require('html-entities').AllHtmlEntities;
 var entities = new Entities();
+var UUID = require('uuid');
 
 var BattleshipGame = require('./app/game.js');
 var GameStatus = require('./app/gameStatus.js');
+var Settings = require('./app/settings.js');
 
 var port = 8900;
 
 var users = {};
+var games = {};
+var players = {};
+
+function generateRandomShot() {
+    console.log('In generateRandomShot function'); 
+    var x = Math.floor(Math.random() * Settings.gridCols);
+    var y = Math.floor(Math.random() * Settings.gridRows);
+
+    console.log('Generated shot at ', x, y); 
+
+    return { x: x, y: y };
+}
+
 var gameIdCounter = 1;
 
 app.use(express.static(__dirname + '/public'));
@@ -19,21 +34,49 @@ http.listen(port, function(){
   console.log('listening on *:' + port);
 });
 
-io.on('connection', function(socket) {
-  console.log((new Date().toISOString()) + ' ID ' + socket.id + ' connected.');
+io.on('connection', function (socket) {
+    console.log('Successfully connected to the server.');
+    console.log((new Date().toISOString()) + ' ID ' + socket.id + ' connected.');
 
-  // create user object for additional data
+    // create user object for additional data
   users[socket.id] = {
     inGame: null,
     player: null
   }; 
 
   // join waiting room until there are enough players to start a new game
-  socket.join('waiting room');
+    socket.join('waiting room');
 
-  /**
-   * Handle chat messages
-   */
+    // start the single player game.
+    socket.on('startSinglePlayerGame', function () {
+        console.log('Single player game started');
+        console.log('Received startSinglePlayerGame event from ' + socket.id);
+        var cpuPlayerId = 'cpu'; // Or generate a unique ID for the CPU player
+        var gameId = UUID.v4();
+        var game = new BattleshipGame(gameId, socket.id, cpuPlayerId);
+        games[gameId] = game;
+        players[socket.id] = gameId;
+
+        // Move player out of waiting room and into game room
+        socket.leave('waiting room');
+        socket.join('game' + gameId);
+        users[socket.id].inGame = game;
+        users[socket.id].player = 0;
+
+        // Inform player that they've joined a game
+        io.to(socket.id).emit('join', gameId);
+
+        // Send initial ship placements
+        io.to(socket.id).emit('update', game.getGameState(0, 0));
+
+        game.shoot(generateRandomShot()); // Implement the AI's random shot function
+        io.to(socket.id).emit('update', game.getGameState(0, 0));
+    });
+
+
+    /**
+     * Handle chat messages
+     */
   socket.on('chat', function(msg) {
     if(users[socket.id].inGame !== null && msg) {
       console.log((new Date().toISOString()) + ' Chat message from ' + socket.id + ': ' + msg);
@@ -90,7 +133,8 @@ io.on('connection', function(socket) {
   /**
    * Handle client disconnect
    */
-  socket.on('disconnect', function() {
+    socket.on('disconnect', function () {
+        console.log('Disconnected from the server.');
     console.log((new Date().toISOString()) + ' ID ' + socket.id + ' disconnected.');
     
     leaveGame(socket);
