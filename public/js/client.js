@@ -98,6 +98,11 @@ $(function() {
     return false;
   });
 
+  $('#singlePlayerBtn').click(function () {
+    console.log('Single player button clicked');
+    socket.emit('startSinglePlayerGame');
+  });
+
 });
 
 /**

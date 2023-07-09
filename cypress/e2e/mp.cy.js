@@ -12,7 +12,7 @@ describe('E2E multiplayer spec', () => {
             .its('0.contentDocument')
     }
 
-    it('Validate full gameplay', () => {
+    it('Validate full multiplayer gameplay', () => {
         cy.viewport(1000, 1500)
         // Load the waiting room
         cy.visit('http://localhost:8900/');
@@ -43,6 +43,31 @@ describe('E2E multiplayer spec', () => {
 
         // Place ships
         const gridPad = 36.1;
+        let p1x = 75,p1y = 75
+        cy.get('#carrier').click();
+        cy.get('#p1div').click(p1x, p1y);
+
+        p1x += gridPad;
+        cy.get('#battleship').click();
+        cy.get('#p1div').rightclick(p1x, p1y);
+        cy.get('#p1div').click(p1x, p1y);
+
+        p1x += gridPad;
+        p1y += gridPad * 2;
+        cy.get('#destroyer').click();
+        cy.get('#p1div').click(p1x, p1y);
+
+        p1x += gridPad * 2;
+        p1y += gridPad * 2;
+        cy.get('#submarine').click();
+        cy.get('#p1div').rightclick(p1x, p1y);
+        cy.get('#p1div').click(p1x, p1y);
+
+        p1x += gridPad * 2;
+        p1y += gridPad * 2;
+        cy.get('#patrolboat').click();
+        cy.get('#p1div').click(p1x, p1y);
+
         let p2x = 75,p2y = 75
         getIframeDocument().find('#carrier').click();
         getIframeDocument().find('#p1div').rightclick(p2x, p2y);
@@ -69,35 +94,7 @@ describe('E2E multiplayer spec', () => {
         getIframeDocument().find('#p1div').rightclick(p2x, p2y);
         getIframeDocument().find('#p1div').click(p2x, p2y);
 
-        let p1x = 75,p1y = 75
-        cy.get('#carrier').click();
-        cy.get('#p1div').click(p1x, p1y);
-
-        p1x += gridPad;
-        cy.get('#battleship').click();
-        cy.get('#p1div').rightclick(p1x, p1y);
-        cy.get('#p1div').click(p1x, p1y);
-
-        p1x += gridPad;
-        p1y += gridPad * 2;
-        cy.get('#destroyer').click();
-        cy.get('#p1div').click(p1x, p1y);
-
-        p1x += gridPad * 2;
-        p1y += gridPad * 2;
-        cy.get('#submarine').click();
-        cy.get('#p1div').rightclick(p1x, p1y);
-        cy.get('#p1div').click(p1x, p1y);
-
-        p1x += gridPad * 2;
-        p1y += gridPad * 2;
-        cy.get('#patrolboat').click();
-        cy.get('#p1div').click(p1x, p1y);
-
-
-
         // Shoot until game ends
-
         function shootWhileInProgressP1(p1x, p1y, p2x, p2y) {
             let p1turn = false;
             let inProgress = true;

@@ -8,13 +8,15 @@ var GameStatus = require('./gameStatus.js');
  * @param {type} idPlayer1 Socket ID of player 1
  * @param {type} idPlayer2 Socket ID of player 2
  */
-function BattleshipGame(id, idPlayer1, idPlayer2) {
+function BattleshipGame(id, idPlayer1, idPlayer2, singlePlayer) {
   this.id = id;
-  this.currentPlayer = Math.floor(Math.random() * 2);
+  this.currentPlayer = singlePlayer ? 0 : Math.floor(Math.random() * 2);
   this.winningPlayer = null;
-  this.gameStatus = GameStatus.preGame;
 
-  this.players = [new Player(idPlayer1), new Player(idPlayer2)];
+  this.gameStatus = singlePlayer ? GameStatus.onePlaced : GameStatus.preGame;
+  this.singlePlayer = singlePlayer;
+
+  this.players = [new Player(idPlayer1, false), new Player(idPlayer2, singlePlayer)];
 }
 
 /**
@@ -87,7 +89,11 @@ BattleshipGame.prototype.shoot = function(position) {
       this.gameStatus = GameStatus.gameOver;
       this.winningPlayer = opponent === 0 ? 1 : 0;
     }
-    
+
+    if (this.singlePlayer && this.gameStatus === GameStatus.inProgress && this.currentPlayer === 1 ) {
+      this.cpuTurn();
+    }
+
     return true;
   }
 
@@ -117,8 +123,38 @@ BattleshipGame.prototype.getGameState = function(player, gridOwner) {
 BattleshipGame.prototype.getGrid = function(player, hideShips) {
   return {
     shots: this.players[player].shots,
-    ships: hideShips ? (this.gameStatus < inProgress ? [] : this.players[player].getSunkShips()) : this.players[player].ships
+    ships: hideShips ? (this.gameStatus < GameStatus.inProgress ? [] : this.players[player].getSunkShips()) : this.players[player].ships
   };
 };
+
+BattleshipGame.prototype.cpuTurn = function () {
+  var retry = 0;
+  var position = { x: Math.floor(Math.random() * Settings.gridCols), y: Math.floor(Math.random() * Settings.gridRows) }; // Implement the AI's random shot function
+  while (this.players[0].shots[position.x+(position.y*Settings.gridCols)] != 0 && retry++ < 10){
+    position = { x: Math.floor(Math.random() * Settings.gridCols), y: Math.floor(Math.random() * Settings.gridRows) };
+  }
+  if (retry >= 10) {
+    var index = this.players[0].shots.indexOf(0);
+    position = { x: index % Settings.gridCols, y: Math.floor(index / Settings.gridRows) };
+  }
+  this.shoot(position);
+  console.log('Generated shot at ', position.x, position.y);
+  if (this.currentPlayer === 1 && this.gameStatus == GameStatus.inProgress) { // If the AI has another turn (it hit a ship)
+    this.cpuTurn(); // Take another turn
+  } else if (this.gameStatus == GameStatus.gameOver) {
+
+  }
+};
+
+
+function generateRandomShot() {
+  console.log('In generateRandomShot function');
+  var x = Math.floor(Math.random() * Settings.gridCols);
+  var y = Math.floor(Math.random() * Settings.gridRows);
+
+  console.log('Generated shot at ', x, y);
+
+  return { x: x, y: y };
+}
 
 module.exports = BattleshipGame;

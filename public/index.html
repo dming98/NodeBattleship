@@ -33,6 +33,8 @@
                                 <p>You are connected to the server.</p>
                                 <p>Waiting for another player...</p>
                             </div>
+                            <button id="singlePlayerBtn" class="btn btn-primary">Play against CPU</button>
+                            <p/>
                         </div>
                     </div>
                 </div>
@@ -49,11 +51,14 @@
                                 <div class="ships-container">
                                     <h3>Ships</h3>
                                     <div class="buttons-container">
-                                        <button type="button" id="carrier" class="btn btn-primary">Aircraft Carrier</button>
-                                        <button type="button" id="battleship" class="btn btn-primary">Battleship</button>
+                                        <button type="button" id="carrier" class="btn btn-primary">Aircraft Carrier
+                                        </button>
+                                        <button type="button" id="battleship" class="btn btn-primary">Battleship
+                                        </button>
                                         <button type="button" id="destroyer" class="btn btn-primary">Destroyer</button>
                                         <button type="button" id="submarine" class="btn btn-primary">Submarine</button>
-                                        <button type="button" id="patrolboat" class="btn btn-primary">Patrol Boat</button>
+                                        <button type="button" id="patrolboat" class="btn btn-primary">Patrol Boat
+                                        </button>
                                     </div>
                                 </div>
 
@@ -62,15 +67,19 @@
 
                                     <div id="p1div" class="col-md-6 player-grid text-center">
                                         <h3>You</h3>
-                                        <canvas id="canvas-grid1" width="361" height="361">Browser does not support canvas.</canvas>
+                                        <canvas id="canvas-grid1" width="361" height="361">Browser does not support
+                                            canvas.
+                                        </canvas>
                                     </div>
                                     <div id="p2div" class="col-md-6 player-grid text-center">
                                         <h3>Opponent</h3>
-                                        <canvas id="canvas-grid2" width="361" height="361">Browser does not support canvas.</canvas>
+                                        <canvas id="canvas-grid2" width="361" height="361">Browser does not support
+                                            canvas.
+                                        </canvas>
                                     </div>
                                 </div>
-                                
-                                
+
+
                             </div>
 
                             <ul class="list-group">
@@ -86,10 +95,10 @@
                                 <li class="list-group-item">
                                     <form id="message-form" action="">
                                         <div class="input-group">
-                                        <input id="message" class="form-control" autocomplete="off" />
-                                        <div class="input-group-btn">
-                                            <button id="send-message" class="btn btn-primary">Send Message</button>
-                                        </div>
+                                            <input id="message" class="form-control" autocomplete="off"/>
+                                            <div class="input-group-btn">
+                                                <button id="send-message" class="btn btn-primary">Send Message</button>
+                                            </div>
                                         </div>
                                     </form>
                                 </li>
@@ -105,7 +114,8 @@
 </div>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"></script>
 <script type="text/javascript" src="/js/game.js"></script>
 <script type="text/javascript" src="/js/client.js"></script>

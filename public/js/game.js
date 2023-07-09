@@ -4,11 +4,16 @@ var GameStatus = {
     inProgress: 1,
     gameOver: 2
 }
+var Settings = {
+    gridRows: 10,
+    gridCols: 10,
+    ships: [ 5, 4, 3, 3, 2 ]
+};
 
 var Game = (function () {
     var canvas = [], context = [], grid = [], shipGrid,
         gridHeight = 361, gridWidth = 361, gridBorder = 1,
-        gridRows = 10, gridCols = 10, markPadding = 10, shipPadding = 3,
+        gridRows = Settings.gridRows, gridCols = Settings.gridCols, markPadding = 10, shipPadding = 3,
         squareHeight = (gridHeight - gridBorder * gridRows - gridBorder) / gridRows,
         squareWidth = (gridWidth - gridBorder * gridCols - gridBorder) / gridCols,
         turn = false, gameStatus, squareHover = {x: -1, y: -1},

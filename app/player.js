@@ -5,7 +5,7 @@ var Settings = require('./settings.js');
  * Player constructor
  * @param {type} id Socket ID
  */
-function Player(id) {
+function Player(id, singlePlayer) {
     var i;
 
     this.id = id;
@@ -17,12 +17,16 @@ function Player(id) {
         this.shots[i] = 0;
         this.shipGrid[i] = -1;
     }
-    this.createPlaceholderShips();
-    // if(!this.createRandomShips()) {
-    //     // Random placement of ships failed. Use fallback layout (should rarely happen).
-    //     this.ships = [];
-    //     this.createShips();
-    // }
+
+    if (singlePlayer){
+        if(!this.createRandomShips()) {
+            // Random placement of ships failed. Use fallback layout (should rarely happen).
+            this.ships = [];
+            this.createShips();
+        }
+    } else {
+        this.createPlaceholderShips();
+    }
 };
 
 /**
@@ -209,13 +213,6 @@ Player.prototype.createPlaceholderShips = function () {
         ship.horizontal = horizontal[shipIndex];
         ship.x = x[shipIndex];
         ship.y = y[shipIndex];
-        //
-        // // place ship array-index in shipGrid
-        // gridIndex = ship.y * Settings.gridCols + ship.x;
-        // for (i = 0; i < ship.size; i++) {
-        //     this.shipGrid[gridIndex] = shipIndex;
-        //     gridIndex += ship.horizontal ? 1 : Settings.gridCols;
-        // }
 
         this.ships.push(ship);
     }

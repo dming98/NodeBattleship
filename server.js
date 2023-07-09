@@ -7,10 +7,12 @@ var entities = new Entities();
 
 var BattleshipGame = require('./app/game.js');
 var GameStatus = require('./app/gameStatus.js');
+var Settings = require('./app/settings.js');
 
 var port = 8900;
 
 var users = {};
+var players = {};
 var gameIdCounter = 1;
 
 app.use(express.static(__dirname + '/public'));
@@ -30,6 +32,32 @@ io.on('connection', function (socket) {
 
     // join waiting room until there are enough players to start a new game
     socket.join('waiting room');
+
+    // start the single player game.
+    socket.on('startSinglePlayerGame', function () {
+        console.log('Single player game started');
+        console.log('Received startSinglePlayerGame event from ' + socket.id);
+        // var cpuPlayerId = 'cpu'; // Or generate a unique ID for the CPU player
+        // var gameId = UUID.v4();
+        var game = new BattleshipGame(gameIdCounter++, socket.id, socket.id+'_CPU', true);
+        // games[gameId] = game;
+        players[socket.id] = game.id;
+
+        // Move player out of waiting room and into game room
+        socket.leave('waiting room');
+        socket.join('game' + game.id);
+        users[socket.id].inGame = game;
+        users[socket.id].player = 0;
+
+        // Inform player that they've joined a game
+        io.to(socket.id).emit('join', game.id);
+
+        // Send initial ship placements
+        io.to(socket.id).emit('update', game.getGameState(0, 0));
+
+        // game.shoot(generateRandomShot()); // Implement the AI's random shot function
+        io.to(socket.id).emit('update', game.getGameState(0, 0));
+    });
 
     /**
      * Handle chat messages
@@ -62,7 +90,7 @@ io.on('connection', function (socket) {
             if (game.gameStatus === GameStatus.preGame || game.gameStatus === GameStatus.onePlaced) {
                 game.players[users[socket.id].player].ships = ships;
 
-                var gridCols = 10;
+                var gridCols = Settings.gridCols;
                 for (var shipIndex = 0; shipIndex < ships.length; shipIndex++) {
                     ship = ships[shipIndex];
 
@@ -113,7 +141,9 @@ io.on('connection', function (socket) {
                     // Update game state on both clients.
                     io.to(socket.id).emit('update', game.getGameState(users[socket.id].player, opponent));
                     io.to(game.getPlayerId(opponent)).emit('update', game.getGameState(opponent, opponent));
-
+                    if (game.singlePlayer){
+                        io.to(socket.id).emit('update', game.getGameState(users[socket.id].player, game.currentPlayer));
+                    }
 
                 }
             }
@@ -154,7 +184,7 @@ function joinWaitingPlayers() {
 
     if (players.length >= 2) {
         // 2 player waiting. Create new game!
-        var game = new BattleshipGame(gameIdCounter++, players[0].id, players[1].id);
+        var game = new BattleshipGame(gameIdCounter++, players[0].id, players[1].id, false);
 
         // create new room for this game
         players[0].leave('waiting room');
