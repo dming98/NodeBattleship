@@ -33,7 +33,6 @@ jobs:
           SLACK_TITLE: Play through Test Results
           SLACK_USERNAME: NotifyBot
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-      
       - name: Run Cypress tests
         run: npx cypress run --reporter mochawesome
 
