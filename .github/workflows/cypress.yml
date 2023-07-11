@@ -14,7 +14,7 @@ jobs:
           node-version: 14
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --save-dev mocha mochawesome mochawesome-merge mochawesome-report-generator
 
       - name: Run Cypress tests
         run: npx cypress run --reporter mochawesome
