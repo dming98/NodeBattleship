@@ -1,5 +1,4 @@
 const { defineConfig } = require("cypress");
-const { use } = require("chai");
 const mochawesome = require("mochawesome");
 
 module.exports = defineConfig({
