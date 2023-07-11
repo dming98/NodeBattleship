@@ -37,8 +37,8 @@ jobs:
       - name: Run Cypress tests
         run: npx cypress run --reporter mochawesome
 
-      #- name: Merge Mochawesome reports
-       # run: npx mochawesome-merge "cypress/results/*.json" > mochawesome.json
+      - name: Merge Mochawesome reports
+        run: npx mochawesome-merge "cypress/results/*.json" > mochawesome.json
 
       - name: Generate Mochawesome report
         run: npx marge mochawesome.json -f report -o cypress/results
