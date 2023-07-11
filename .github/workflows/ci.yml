@@ -35,7 +35,9 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       
       - name: Run Cypress tests
-        run: npx cypress run --reporter mochawesome
+        run: npx cypress run --reporter mochawesome --reporter-options reportDir=cypress/results,overwrite=false,html=false,json=true
+      - name: List directory contents
+        run: ls -la cypress/results/
 
       - name: Merge Mochawesome reports
         run: npx mochawesome-merge "cypress/results/*.json" > mochawesome.json
