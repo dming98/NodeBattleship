@@ -11,6 +11,8 @@ jobs:
         run: npm install
       - name: mocha
         run: npm install --save-dev mocha mochawesome mochawesome-merge mochawesome-report-generator
+      - name: fix audit
+        run: npm audit fix --force
       - name: Install dependencies
         run: npm install
       - name: Start server
