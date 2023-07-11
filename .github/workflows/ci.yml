@@ -33,6 +33,8 @@ jobs:
           SLACK_TITLE: Play through Test Results
           SLACK_USERNAME: NotifyBot
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      - name: Set directory permissions
+        run: chmod -R +rwx cypress/results
       
       - name: Run Cypress tests
         run: npx cypress run --reporter mochawesome --reporter-options reportDir=cypress/results,overwrite=false,html=true,json=true
