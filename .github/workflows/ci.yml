@@ -35,7 +35,7 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       
       - name: Run Cypress tests
-        run: npx cypress run --reporter mochawesome --reporter-options reportDir=cypress/results,overwrite=false,html=false,json=true
+        run: npx cypress run --reporter mochawesome --reporter-options reportDir=cypress/results,overwrite=false,html=true,json=true
       - name: List directory contents
         run: ls -la cypress/results/
 
@@ -49,5 +49,5 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: test-results
-          path: cypress/results/mochawesome.html
+          path: cypress/results/report.html
 
