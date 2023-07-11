@@ -30,6 +30,7 @@ jobs:
           name: coverage-report
           path: coverage/lcov-report/
       - name: Slack Notification
+        if: ${{ always() }}
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_CHANNEL: nodebattleship-pipeline-results
