@@ -11,6 +11,23 @@ jobs:
         run: npm install
       - name: mocha
         run: npm install --save-dev cypress mochawesome mochawesome-merge mochawesome-report-generator
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Cypress tests
+        run: npx cypress run --reporter mochawesome
+
+      - name: Merge Mochawesome reports
+        run: npx mochawesome-merge "cypress/results/*.json" > mochawesome.json
+
+      - name: Generate Mochawesome report
+        run: npx marge mochawesome.json -f report -o cypress/results
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-results
+          path: cypress/results/report.html
       - name: Start server
         run:  node server.js &
       - name: Wait for server to start
