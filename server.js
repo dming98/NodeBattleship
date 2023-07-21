@@ -4,14 +4,63 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var Entities = require('html-entities').AllHtmlEntities;
 var entities = new Entities();
+var UUID = require('uuid');
 
 var BattleshipGame = require('./app/game.js');
 var GameStatus = require('./app/gameStatus.js');
+var Settings = require('./app/settings.js');
 
 var port = 8900;
 
 var users = {};
 var gameIdCounter = 1;
+var games = {};
+var players = {};
+
+function generateRandomShot() {
+    // generate random shot
+    var x = Math.floor(Math.random() * Settings.gridCols);
+    var y = Math.floor(Math.random() * Settings.gridRows);
+
+    // check if shot has already been made
+    while (game.players[0].shots[x][y] !== null) {
+        x = Math.floor(Math.random() * Settings.gridCols);
+        y = Math.floor(Math.random() * Settings.gridRows);
+    }
+
+    // check shot placement and attempt to fire at a nearby location if a ship was hit
+    var shotResult = game.shoot(x, y);
+    while (shotResult === 'hit') {
+        var shotDirection = Math.floor(Math.random() * 4);
+        switch (shotDirection) {
+            case 0:
+                // up
+                y--;
+                break;
+            case 1:
+                // right
+                x++;
+                break;
+            case 2:
+                // down
+                y++;
+                break;
+            case 3:
+                // left
+                x--;
+                break;
+        }
+        if (x < 0 || x >= Settings.gridCols || y < 0 || y >= Settings.gridRows) {
+            // shot is out of bounds
+            x = Math.floor(Math.random() * Settings.gridCols);
+            y = Math.floor(Math.random() * Settings.gridRows);
+        }
+        shotResult = game.shoot(x, y);
+    }
+    console.log('Generated shot at ', x, y);
+
+    return { x: x, y: y };
+}
 
 app.use(express.static(__dirname + '/public'));
 
@@ -21,6 +70,7 @@ http.listen(port, function () {
 
 io.on('connection', function (socket) {
     console.log((new Date().toISOString()) + ' ID ' + socket.id + ' connected.');
+    console.log('Successfully connected to the server.');
 
     // create user object for additional data
     users[socket.id] = {
@@ -31,6 +81,31 @@ io.on('connection', function (socket) {
     // join waiting room until there are enough players to start a new game
     socket.join('waiting room');
 
+    // start the single player game.
+    socket.on('startSinglePlayerGame', function () {
+        console.log('Single player game started');
+        console.log('Received startSinglePlayerGame event from ' + socket.id);
+        var cpuPlayerId = 'cpu'; // Or generate a unique ID for the CPU player
+        var gameId = UUID.v4();
+        var game = new BattleshipGame(gameId, socket.id, cpuPlayerId);
+        games[gameId] = game;
+        players[socket.id] = gameId;
+
+        // Move player out of waiting room and into game room
+        socket.leave('waiting room');
+        socket.join('game' + gameId);
+        users[socket.id].inGame = game;
+        users[socket.id].player = 0;
+
+        // Inform player that they've joined a game
+        io.to(socket.id).emit('join', gameId);
+
+        // Send initial ship placements
+        io.to(socket.id).emit('update', game.getGameState(0, 0));
+
+        game.shoot(generateRandomShot()); // Implement the AI's random shot function
+        io.to(socket.id).emit('update', game.getGameState(0, 0));
+    });
     /**
      * Handle chat messages
      */
