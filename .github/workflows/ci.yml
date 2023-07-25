@@ -53,5 +53,5 @@ jobs:
           name: test-results
           path: |
             #cypress/results/*
-            cypress/results/*
+            cypress/results/
 
