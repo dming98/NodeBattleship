@@ -52,6 +52,6 @@ jobs:
         with:
           name: test-results
           path: |
-            cypress/results/*.html
-            cypress/results/*.json
+            #cypress/results/*
+            cypress/results/*
 
